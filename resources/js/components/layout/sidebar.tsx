@@ -8,12 +8,16 @@ import {
     ClipboardCheck,
     ClipboardList,
     Coins,
+    Cog,
     FileBarChart,
     FileText,
     GanttChartSquare,
+    KeyRound,
+    Layers,
     LayoutDashboard,
     LifeBuoy,
     ListChecks,
+    Network,
     Package,
     PiggyBank,
     Receipt,
@@ -48,7 +52,7 @@ function useNavigation(): NavSection[] {
     const has = (p?: string) => !p || perms.has(p);
 
     return [
-        // 1. Accueil — toujours visible, jamais repliable
+        // 1. ACCUEIL — toujours visible, jamais repliable (cycle commence ici)
         {
             label: 'Accueil',
             icon: LayoutDashboard,
@@ -57,9 +61,10 @@ function useNavigation(): NavSection[] {
                 { title: 'Tableau de bord', href: '/dashboard', icon: LayoutDashboard },
             ] as NavItem[]).filter((i) => has(i.permission)),
         },
-        // 2. Planification stratégique — du haut vers le bas de la chaîne RBM
+
+        // 2. PLANIFIER — Cadre stratégique RBM/GAR (descendant)
         {
-            label: 'Planification stratégique',
+            label: 'Pilotage stratégique',
             icon: ClipboardList,
             items: [
                 { title: 'PAPA — Plan Annuel', href: '/papa', icon: ClipboardList, permission: 'papa.viewAny' },
@@ -68,18 +73,28 @@ function useNavigation(): NavSection[] {
                 { title: 'Sous-Produits', href: '/rbm/sous-produits', icon: Boxes, permission: 'view_sous_produits' },
             ].filter((i) => has(i.permission)),
         },
-        // 3. Exécution opérationnelle — quotidien
+
+        // 3. EXÉCUTER — Mise en œuvre opérationnelle
         {
-            label: 'Exécution & Suivi',
+            label: 'Exécution opérationnelle',
             icon: GanttChartSquare,
             items: [
                 { title: 'Activités & Gantt', href: '/activites', icon: GanttChartSquare, permission: 'view_activites' },
                 { title: 'Tâches', href: '/rbm/taches', icon: ListChecks, permission: 'view_taches' },
+            ].filter((i) => has(i.permission)),
+        },
+
+        // 4. MESURER — Performance et anomalies
+        {
+            label: 'Performance & Alertes',
+            icon: BarChart3,
+            items: [
                 { title: 'Indicateurs (KPI)', href: '/indicateurs', icon: BarChart3, permission: 'indicateur.viewAny' },
                 { title: 'Alertes & Risques', href: '/alertes', icon: AlertTriangle, permission: 'alerte.viewAny' },
             ].filter((i) => has(i.permission)),
         },
-        // 4. Budget institutionnel
+
+        // 5. FINANCER — Cadre budgétaire annuel
         {
             label: 'Budget institutionnel',
             icon: Wallet,
@@ -90,7 +105,8 @@ function useNavigation(): NavSection[] {
                 { title: 'Import / Export', href: '/budget/imports', icon: Upload, permission: 'import_budget' },
             ].filter((i) => has(i.permission)),
         },
-        // 5. Chaîne de la dépense (Phases 1+2+3)
+
+        // 6. DÉPENSER — Cycle complet de la dépense publique (RGCP/IPSAS)
         {
             label: 'Chaîne de la dépense',
             icon: Coins,
@@ -101,7 +117,8 @@ function useNavigation(): NavSection[] {
                 { title: 'Fournisseurs', href: '/expense/suppliers', icon: Building2, permission: 'supplier.viewAny' },
             ].filter((i) => has(i.permission)),
         },
-        // 6. Audit interne IGS (IIA / IFACI / ISO 19011 / COSO)
+
+        // 7. CONTRÔLER — Audit interne IGS (IIA / IFACI / ISO 19011 / COSO)
         {
             label: 'Audit interne IGS',
             icon: ShieldCheck,
@@ -112,22 +129,37 @@ function useNavigation(): NavSection[] {
                 { title: 'Recommandations', href: '/audit/recommandations', icon: ListChecks, permission: 'audit_interne.view' },
             ].filter((i) => has(i.permission)),
         },
-        // 7. Documents & Restitution
+
+        // 8. RESTITUER — Documents et rapports institutionnels
         {
-            label: 'Documents & Restitution',
+            label: 'Documents & Reporting',
             icon: FileText,
             items: [
                 { title: 'Documents (GED)', href: '/documents', icon: FileText, permission: 'document.viewAny' },
                 { title: 'Rapports PDF', href: '/rapports', icon: FileBarChart, permission: 'generate_reports' },
             ].filter((i) => has(i.permission)),
         },
-        // 8. Administration — toujours en bas
+
+        // 9. ADMINISTRER — Hiérarchie institutionnelle CEEAC (vue métier)
         {
-            label: 'Administration',
-            icon: Users,
+            label: 'Organisation institutionnelle',
+            icon: Network,
+            items: [
+                { title: 'Organigramme', href: '/admin/organigramme', icon: Network, permission: 'departement.manage' },
+                { title: 'Départements', href: '/admin/departements', icon: Building2, permission: 'departement.manage' },
+                { title: 'Directions', href: '/admin/directions', icon: Boxes, permission: 'direction.manage' },
+                { title: 'Services', href: '/admin/services', icon: Layers, permission: 'service.viewAny' },
+            ].filter((i) => has(i.permission)),
+        },
+
+        // 10. PARAMÉTRER — Administration système et sécurité (technique)
+        {
+            label: 'Administration système',
+            icon: Cog,
             items: [
                 { title: 'Utilisateurs', href: '/admin/users', icon: Users, permission: 'user.viewAny' },
-                { title: 'Départements', href: '/admin/departements', icon: Building2, permission: 'departement.manage' },
+                { title: 'Rôles', href: '/admin/roles', icon: ShieldCheck, permission: 'role.manage' },
+                { title: 'Permissions', href: '/admin/permissions', icon: KeyRound, permission: 'permission.manage' },
                 { title: "Journal d'audit système", href: '/admin/audit', icon: ShieldCheck, permission: 'audit.viewLog' },
             ].filter((i) => has(i.permission)),
         },

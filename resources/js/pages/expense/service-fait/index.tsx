@@ -2,6 +2,7 @@ import { router, useForm } from '@inertiajs/react';
 import { CheckCircle2, ClipboardCheck, FileDown, LoaderCircle, Plus } from 'lucide-react';
 import { type FormEvent, useState } from 'react';
 import { AppLayout } from '@/components/layout/app-layout';
+import { JsonExportButton } from '@/components/common/json-export-button';
 import { InstitutionalHero } from '@/components/layout/institutional-hero';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -69,6 +70,11 @@ export default function ServiceFaitIndex({ certificats, receptions, conformites,
         <AppLayout
             pageTitle="Service fait & Réception"
             breadcrumbs={[{ label: 'Chaîne de la dépense', href: '/expense/requests' }, { label: 'Service fait' }]}
+            actions={
+                <div className="flex gap-2">
+                    <JsonExportButton data={{ certificats: certs, receptions: pvs }} filename="service_fait" meta={{ certificats: certs.length, receptions: pvs.length, filtres: filters }} />
+                </div>
+            }
         >
             <div className="space-y-6">
                 <InstitutionalHero

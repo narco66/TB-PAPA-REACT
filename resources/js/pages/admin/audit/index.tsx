@@ -2,6 +2,7 @@ import { router } from '@inertiajs/react';
 import { Activity, Search, ShieldCheck } from 'lucide-react';
 import { type FormEvent, useState } from 'react';
 import { AppLayout } from '@/components/layout/app-layout';
+import { JsonExportButton } from '@/components/common/json-export-button';
 import { InstitutionalHero } from '@/components/layout/institutional-hero';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -31,6 +32,11 @@ export default function AuditIndex({ logs, filters, evenements }: any) {
         <AppLayout
             pageTitle="Journal d'audit"
             breadcrumbs={[{ label: 'Administration' }, { label: 'Audit' }]}
+            actions={
+                <div className="flex gap-2">
+                    <JsonExportButton data={logs.data ?? []} filename="journal_audit_systeme" meta={{ total: logs.total ?? (logs.data?.length ?? 0), filtres: filters }} />
+                </div>
+            }
         >
             <div className="space-y-6">
                 <InstitutionalHero

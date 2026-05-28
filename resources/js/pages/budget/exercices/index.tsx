@@ -1,6 +1,8 @@
 import { Link } from '@inertiajs/react';
 import { Calendar, FileText, Plus, TrendingUp, Wallet } from 'lucide-react';
 import { AppLayout } from '@/components/layout/app-layout';
+import { JsonExportButton } from '@/components/common/json-export-button';
+import { Pagination } from '@/components/common/pagination';
 import { PdfExportButton } from '@/components/common/pdf-export-button';
 import { InstitutionalHero } from '@/components/layout/institutional-hero';
 import { RbmStatusBadge } from '@/components/rbm/rbm-status-badge';
@@ -19,12 +21,13 @@ export default function ExercicesIndex({ exercices, can }: any) {
             pageTitle="Exercices budgétaires"
             breadcrumbs={[{ label: 'Budget', href: '/budget' }, { label: 'Exercices' }]}
             actions={
-                <>
+                <div className="flex gap-2">
+                    <JsonExportButton data={exercicesData} filename="exercices_budgetaires" meta={{ total: exercices.total ?? exercicesData.length }} />
                     <PdfExportButton reportKey="liste_budget_exercices" />
                     {can.create && (
                         <Button asChild><Link href="/budget/exercices/create"><Plus className="h-4 w-4" />Nouvel exercice</Link></Button>
                     )}
-                </>
+                </div>
             }
         >
             <div className="space-y-6">
@@ -77,6 +80,7 @@ export default function ExercicesIndex({ exercices, can }: any) {
                             ))}
                         </TableBody>
                     </Table>
+                    <Pagination pagination={exercices} label="exercices" />
                 </CardContent>
             </Card>
             </div>

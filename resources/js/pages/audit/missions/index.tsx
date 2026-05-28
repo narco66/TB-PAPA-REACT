@@ -1,6 +1,8 @@
 import { Link, router } from '@inertiajs/react';
 import { Plus, Target } from 'lucide-react';
 import { AppLayout } from '@/components/layout/app-layout';
+import { JsonExportButton } from '@/components/common/json-export-button';
+import { Pagination } from '@/components/common/pagination';
 import { PdfExportButton } from '@/components/common/pdf-export-button';
 import { InstitutionalHero } from '@/components/layout/institutional-hero';
 import { Button } from '@/components/ui/button';
@@ -19,12 +21,13 @@ export default function MissionsIndex({ missions, plans, types, statuts, filters
             pageTitle="Missions d'audit"
             breadcrumbs={[{ label: 'Audit interne', href: '/audit' }, { label: 'Missions' }]}
             actions={
-                <>
+                <div className="flex gap-2">
+                    <JsonExportButton data={items} filename="missions_audit" meta={{ total: missions.total ?? items.length, filtres: filters }} />
                     <PdfExportButton reportKey="liste_audit_missions" filtres={filters} />
                     {can.create && (
                         <Button asChild><Link href="/audit/missions/create"><Plus className="h-4 w-4" />Nouvelle mission</Link></Button>
                     )}
-                </>
+                </div>
             }
         >
             <div className="space-y-6">
@@ -80,6 +83,7 @@ export default function MissionsIndex({ missions, plans, types, statuts, filters
                                 ))}
                             </TableBody>
                         </Table>
+                        <Pagination pagination={missions} label="missions" />
                     </CardContent>
                 </Card>
             </div>

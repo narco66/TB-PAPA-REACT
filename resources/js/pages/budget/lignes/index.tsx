@@ -2,6 +2,8 @@ import { Link, router } from '@inertiajs/react';
 import { FileText, ListTree, PiggyBank, Plus, Search, Wallet } from 'lucide-react';
 import { type FormEvent, useState } from 'react';
 import { AppLayout } from '@/components/layout/app-layout';
+import { JsonExportButton } from '@/components/common/json-export-button';
+import { Pagination } from '@/components/common/pagination';
 import { PdfExportButton } from '@/components/common/pdf-export-button';
 import { InstitutionalHero } from '@/components/layout/institutional-hero';
 import { PdfQuickButton } from '@/components/rbm/pdf-quick-button';
@@ -50,6 +52,7 @@ export default function LignesIndex({ lignes, exercices, axes, sources, filters,
             breadcrumbs={[{ label: 'Budget', href: '/budget' }, { label: 'Lignes' }]}
             actions={
                 <div className="flex gap-2">
+                    <JsonExportButton data={lignesData} filename="lignes_budgetaires" meta={{ total: lignes.total ?? lignesData.length, filtres: filters }} />
                     <PdfExportButton reportKey="budget_lignes" filtres={filters} />
                     <PdfQuickButton
                         reportKey="budget_lignes"
@@ -162,25 +165,9 @@ export default function LignesIndex({ lignes, exercices, axes, sources, filters,
                             ))}
                         </TableBody>
                     </Table>
+                    <Pagination pagination={lignes} label="lignes budgétaires" />
                 </CardContent>
             </Card>
-
-            {lignes.last_page > 1 && (
-                <div className="mt-4 flex items-center justify-between text-sm text-muted-foreground">
-                    <p>{lignes.from}–{lignes.to} sur {lignes.total}</p>
-                    <div className="flex gap-1">
-                        {lignes.links.map((link: any, i: number) => (
-                            <button
-                                key={i}
-                                disabled={!link.url}
-                                onClick={() => link.url && router.get(link.url, {}, { preserveScroll: true })}
-                                className={`rounded px-3 py-1.5 text-sm ${link.active ? 'bg-primary text-primary-foreground' : link.url ? 'border hover:bg-accent' : 'opacity-40'}`}
-                                dangerouslySetInnerHTML={{ __html: link.label }}
-                            />
-                        ))}
-                    </div>
-                </div>
-            )}
             </div>
         </AppLayout>
     );

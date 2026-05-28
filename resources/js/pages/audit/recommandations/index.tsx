@@ -1,6 +1,8 @@
 import { Link, router } from '@inertiajs/react';
 import { AlertTriangle, ClipboardCheck } from 'lucide-react';
 import { AppLayout } from '@/components/layout/app-layout';
+import { JsonExportButton } from '@/components/common/json-export-button';
+import { Pagination } from '@/components/common/pagination';
 import { PdfExportButton } from '@/components/common/pdf-export-button';
 import { InstitutionalHero } from '@/components/layout/institutional-hero';
 import { Card, CardContent } from '@/components/ui/card';
@@ -17,7 +19,12 @@ export default function RecommandationsIndex({ recommandations, statuts, priorit
         <AppLayout
             pageTitle="Recommandations"
             breadcrumbs={[{ label: 'Audit interne', href: '/audit' }, { label: 'Recommandations' }]}
-            actions={<PdfExportButton reportKey="liste_audit_recommandations" filtres={filters} />}
+            actions={
+                <div className="flex gap-2">
+                    <JsonExportButton data={items} filename="recommandations_audit" meta={{ total: recommandations.total ?? items.length, filtres: filters }} />
+                    <PdfExportButton reportKey="liste_audit_recommandations" filtres={filters} />
+                </div>
+            }
         >
             <div className="space-y-6">
                 <InstitutionalHero
@@ -77,6 +84,7 @@ export default function RecommandationsIndex({ recommandations, statuts, priorit
                                 ))}
                             </TableBody>
                         </Table>
+                        <Pagination pagination={recommandations} label="recommandations" />
                     </CardContent>
                 </Card>
             </div>

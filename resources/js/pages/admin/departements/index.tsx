@@ -2,6 +2,8 @@ import { Link, router } from '@inertiajs/react';
 import { Building2, CheckCircle2, Pencil, Plus, Search, Target, TrendingUp, XCircle } from 'lucide-react';
 import { type FormEvent, useState } from 'react';
 import { AppLayout } from '@/components/layout/app-layout';
+import { JsonExportButton } from '@/components/common/json-export-button';
+import { Pagination } from '@/components/common/pagination';
 import { PdfExportButton } from '@/components/common/pdf-export-button';
 import { InstitutionalHero } from '@/components/layout/institutional-hero';
 import { Badge } from '@/components/ui/badge';
@@ -34,14 +36,15 @@ export default function DepartementsIndex({ departements, filters, can }: any) {
             pageTitle="Départements techniques"
             breadcrumbs={[{ label: 'Administration' }, { label: 'Départements' }]}
             actions={
-                <>
+                <div className="flex gap-2">
+                    <JsonExportButton data={departementsData} filename="departements" meta={{ total: departements.total ?? departementsData.length, filtres: filters }} />
                     <PdfExportButton reportKey="liste_departements" />
                     {can.create && (
                         <Button asChild>
                             <Link href="/admin/departements/create"><Plus className="h-4 w-4" />Nouveau Département</Link>
                         </Button>
                     )}
-                </>
+                </div>
             }
         >
             <div className="space-y-6">
@@ -159,25 +162,9 @@ export default function DepartementsIndex({ departements, filters, can }: any) {
                             ))}
                         </TableBody>
                     </Table>
+                    <Pagination pagination={departements} label="départements" />
                 </CardContent>
             </Card>
-
-            {departements.last_page > 1 && (
-                <div className="mt-4 flex items-center justify-between text-sm text-muted-foreground">
-                    <p>{departements.from}–{departements.to} sur {departements.total}</p>
-                    <div className="flex gap-1">
-                        {departements.links.map((link: any, i: number) => (
-                            <button
-                                key={i}
-                                disabled={!link.url}
-                                onClick={() => link.url && router.get(link.url, {}, { preserveScroll: true })}
-                                className={`rounded px-3 py-1.5 text-sm ${link.active ? 'bg-primary text-primary-foreground' : link.url ? 'border hover:bg-accent' : 'opacity-40'}`}
-                                dangerouslySetInnerHTML={{ __html: link.label }}
-                            />
-                        ))}
-                    </div>
-                </div>
-            )}
             </div>
         </AppLayout>
     );

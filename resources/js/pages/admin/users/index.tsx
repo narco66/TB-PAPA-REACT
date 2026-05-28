@@ -2,6 +2,8 @@ import { Link, router } from '@inertiajs/react';
 import { KeyRound, Pencil, Plus, Search, ShieldCheck, UserPlus, Users, UserX } from 'lucide-react';
 import { type FormEvent, useState } from 'react';
 import { AppLayout } from '@/components/layout/app-layout';
+import { JsonExportButton } from '@/components/common/json-export-button';
+import { Pagination } from '@/components/common/pagination';
 import { PdfExportButton } from '@/components/common/pdf-export-button';
 import { InstitutionalHero } from '@/components/layout/institutional-hero';
 import { Badge } from '@/components/ui/badge';
@@ -27,14 +29,15 @@ export default function UsersIndex({ users, roles, role_libelles, filters, can }
             pageTitle="Utilisateurs"
             breadcrumbs={[{ label: 'Administration' }, { label: 'Utilisateurs' }]}
             actions={
-                <>
+                <div className="flex gap-2">
+                    <JsonExportButton data={usersData} filename="utilisateurs" meta={{ total: users.total ?? usersData.length, filtres: filters }} />
                     <PdfExportButton reportKey="liste_users" filtres={filters} />
                     {can.create && (
                         <Button asChild>
                             <Link href="/admin/users/create"><UserPlus className="h-4 w-4" />Nouvel utilisateur</Link>
                         </Button>
                     )}
-                </>
+                </div>
             }
         >
             <div className="space-y-6">
@@ -91,7 +94,9 @@ export default function UsersIndex({ users, roles, role_libelles, filters, can }
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {usersData.map((u: any) => (
+                            {usersData.length === 0 ? (
+                                <TableRow><TableCell colSpan={6} className="py-8 text-center text-muted-foreground">Aucun utilisateur ne correspond aux filtres.</TableCell></TableRow>
+                            ) : usersData.map((u: any) => (
                                 <TableRow key={u.id} className={u.actif ? '' : 'opacity-60'}>
                                     <TableCell>
                                         <p className="font-medium">{u.name}</p>
@@ -139,6 +144,7 @@ export default function UsersIndex({ users, roles, role_libelles, filters, can }
                             ))}
                         </TableBody>
                     </Table>
+                    <Pagination pagination={users} label="utilisateurs" />
                 </CardContent>
             </Card>
             </div>

@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { type FormEvent, useMemo, useState } from 'react';
 import { AppLayout } from '@/components/layout/app-layout';
+import { JsonExportButton } from '@/components/common/json-export-button';
 import { InstitutionalHero } from '@/components/layout/institutional-hero';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -219,12 +220,15 @@ export default function ImportsIndex({ exercices, historique, mappings = [] }: {
             pageTitle="Import budgétaire"
             breadcrumbs={[{ label: 'Budget', href: '/budget' }, { label: 'Imports' }]}
             actions={
-                <Button variant="ghost" size="sm" asChild>
-                    <Link href="/budget">
-                        <ArrowLeft className="h-4 w-4" />
-                        Retour
-                    </Link>
-                </Button>
+                <div className="flex gap-2">
+                    <JsonExportButton data={historique} filename="imports_budget" meta={{ total: historique.length }} />
+                    <Button variant="ghost" size="sm" asChild>
+                        <Link href="/budget">
+                            <ArrowLeft className="h-4 w-4" />
+                            Retour
+                        </Link>
+                    </Button>
+                </div>
             }
         >
             <div className="space-y-6">

@@ -2,6 +2,8 @@ import { Link, router } from '@inertiajs/react';
 import { BarChart3, Boxes, ListChecks, Package, Plus, Search, TrendingUp } from 'lucide-react';
 import { type FormEvent, useState } from 'react';
 import { AppLayout } from '@/components/layout/app-layout';
+import { JsonExportButton } from '@/components/common/json-export-button';
+import { Pagination } from '@/components/common/pagination';
 import { PdfExportButton } from '@/components/common/pdf-export-button';
 import { InstitutionalHero } from '@/components/layout/institutional-hero';
 import { RbmStatusBadge } from '@/components/rbm/rbm-status-badge';
@@ -32,10 +34,11 @@ export default function SousProduitsIndex({ sousProduits, produits, filters, can
             pageTitle="Sous-Produits"
             breadcrumbs={[{ label: 'RBM' }, { label: 'Sous-Produits' }]}
             actions={
-                <>
+                <div className="flex gap-2">
+                    <JsonExportButton data={sousProduitsData} filename="sous_produits" meta={{ total: sousProduits.total ?? sousProduitsData.length, filtres: filters }} />
                     <PdfExportButton reportKey="liste_sous_produits" filtres={filters} />
                     {can.create && (<Button asChild><Link href="/rbm/sous-produits/create"><Plus className="h-4 w-4" />Nouveau Sous-Produit</Link></Button>)}
-                </>
+                </div>
             }
         >
             <div className="space-y-6">
@@ -108,6 +111,7 @@ export default function SousProduitsIndex({ sousProduits, produits, filters, can
                                 ))}
                             </TableBody>
                         </Table>
+                        <Pagination pagination={sousProduits} label="sous-produits" />
                     </CardContent>
                 </Card>
             </div>

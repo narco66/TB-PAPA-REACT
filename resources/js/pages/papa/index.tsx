@@ -13,6 +13,8 @@ import {
 } from 'lucide-react';
 import { type FormEvent, useState } from 'react';
 import { AppLayout } from '@/components/layout/app-layout';
+import { JsonExportButton } from '@/components/common/json-export-button';
+import { Pagination } from '@/components/common/pagination';
 import { PdfExportButton } from '@/components/common/pdf-export-button';
 import { StatCard } from '@/components/dashboard/stat-card';
 import { RbmStatusBadge as StatusBadge } from '@/components/rbm/rbm-status-badge';
@@ -78,7 +80,8 @@ export default function PapaIndex({ papas, filters, statuts, stats, can }: Props
             pageTitle="Plans d'Actions Prioritaires Annuels"
             breadcrumbs={[{ label: 'PAPA' }]}
             actions={
-                <>
+                <div className="flex gap-2">
+                    <JsonExportButton data={papas.data} filename="papa" meta={{ total: papas.total ?? papas.data.length, filtres: filters }} />
                     <PdfExportButton reportKey="liste_papas" filtres={filters} />
                     {can.create && (
                         <Button asChild>
@@ -88,7 +91,7 @@ export default function PapaIndex({ papas, filters, statuts, stats, can }: Props
                             </Link>
                         </Button>
                     )}
-                </>
+                </div>
             }
         >
             <div className="space-y-6">
@@ -308,34 +311,9 @@ export default function PapaIndex({ papas, filters, statuts, stats, can }: Props
                                 )}
                             </TableBody>
                         </Table>
+                        <Pagination pagination={papas} label="PAPA" />
                     </CardContent>
                 </Card>
-
-                {/* ===== Pagination ===== */}
-                {papas.last_page > 1 && (
-                    <div className="flex items-center justify-between text-sm text-muted-foreground">
-                        <p>
-                            Affichage {papas.from}–{papas.to} sur {papas.total} PAPA
-                        </p>
-                        <div className="flex gap-1">
-                            {papas.links.map((link, i) => (
-                                <button
-                                    key={i}
-                                    disabled={!link.url}
-                                    onClick={() => link.url && router.get(link.url, {}, { preserveScroll: true })}
-                                    className={`rounded px-3 py-1.5 text-sm ${
-                                        link.active
-                                            ? 'bg-primary text-primary-foreground'
-                                            : link.url
-                                              ? 'border hover:bg-accent'
-                                              : 'opacity-40'
-                                    }`}
-                                    dangerouslySetInnerHTML={{ __html: link.label }}
-                                />
-                            ))}
-                        </div>
-                    </div>
-                )}
             </div>
         </AppLayout>
     );

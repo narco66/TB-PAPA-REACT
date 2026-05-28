@@ -11,6 +11,8 @@ import {
 } from 'lucide-react';
 import { type FormEvent, useState } from 'react';
 import { AppLayout } from '@/components/layout/app-layout';
+import { JsonExportButton } from '@/components/common/json-export-button';
+import { Pagination } from '@/components/common/pagination';
 import { InstitutionalHero } from '@/components/layout/institutional-hero';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -53,11 +55,14 @@ export default function DocumentsIndex({ documents, filters, can }: any) {
             pageTitle="GED — Documents de preuve"
             breadcrumbs={[{ label: 'GED Documents' }]}
             actions={
-                can.upload && (
-                    <Button asChild>
-                        <Link href="/documents/create"><Plus className="h-4 w-4" />Déposer un document</Link>
-                    </Button>
-                )
+                <div className="flex gap-2">
+                    <JsonExportButton data={documents.data ?? []} filename="documents" meta={{ total: documents.total ?? (documents.data?.length ?? 0), filtres: filters }} />
+                    {can.upload && (
+                        <Button asChild>
+                            <Link href="/documents/create"><Plus className="h-4 w-4" />Déposer un document</Link>
+                        </Button>
+                    )}
+                </div>
             }
         >
             <div className="space-y-6">
@@ -178,6 +183,7 @@ export default function DocumentsIndex({ documents, filters, can }: any) {
                             ))}
                         </TableBody>
                     </Table>
+                    <Pagination pagination={documents} label="documents" />
                 </CardContent>
             </Card>
             </div>

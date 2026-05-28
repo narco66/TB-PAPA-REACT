@@ -2,6 +2,8 @@ import { Link, router } from '@inertiajs/react';
 import { BarChart3, Building2, Layers3, Plus, Search, Target, TrendingUp } from 'lucide-react';
 import { type FormEvent, useState } from 'react';
 import { AppLayout } from '@/components/layout/app-layout';
+import { JsonExportButton } from '@/components/common/json-export-button';
+import { Pagination } from '@/components/common/pagination';
 import { PdfExportButton } from '@/components/common/pdf-export-button';
 import { InstitutionalHero } from '@/components/layout/institutional-hero';
 import { RbmStatusBadge } from '@/components/rbm/rbm-status-badge';
@@ -37,14 +39,15 @@ export default function AxesIndex({ axes, papas, filters, statuts, can }: any) {
             pageTitle="Axes stratégiques"
             breadcrumbs={[{ label: 'RBM' }, { label: 'Axes' }]}
             actions={
-                <>
+                <div className="flex gap-2">
+                    <JsonExportButton data={axesData} filename="axes_strategiques" meta={{ total: axes.total ?? axesData.length, filtres: filters }} />
                     <PdfExportButton reportKey="liste_axes" filtres={filters} />
                     {can.create && (
                         <Button asChild>
                             <Link href="/rbm/axes/create"><Plus className="h-4 w-4" />Nouvel Axe</Link>
                         </Button>
                     )}
-                </>
+                </div>
             }
         >
             <div className="space-y-6">
@@ -149,6 +152,7 @@ export default function AxesIndex({ axes, papas, filters, statuts, can }: any) {
                                 ))}
                             </TableBody>
                         </Table>
+                        <Pagination pagination={axes} label="axes" />
                     </CardContent>
                 </Card>
             </div>

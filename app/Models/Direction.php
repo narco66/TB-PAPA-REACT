@@ -14,9 +14,18 @@ class Direction extends Model
 {
     use HasFactory, LogsActivity, SoftDeletes;
 
-    protected $fillable = ['code', 'libelle', 'type', 'departement_id', 'directeur_id', 'description', 'actif'];
+    protected $fillable = ['uuid', 'code', 'libelle', 'type', 'departement_id', 'directeur_id', 'description', 'ordre', 'actif'];
 
-    protected $casts = ['actif' => 'boolean'];
+    protected $casts = ['actif' => 'boolean', 'ordre' => 'integer'];
+
+    protected static function booted(): void
+    {
+        static::creating(function (Direction $d) {
+            if (empty($d->uuid)) {
+                $d->uuid = (string) \Illuminate\Support\Str::uuid();
+            }
+        });
+    }
 
     public function getActivitylogOptions(): LogOptions
     {
@@ -36,6 +45,11 @@ class Direction extends Model
     public function utilisateurs(): HasMany
     {
         return $this->hasMany(User::class);
+    }
+
+    public function services(): HasMany
+    {
+        return $this->hasMany(Service::class)->orderBy('ordre');
     }
 
     public function actionsPrioritaires(): HasMany

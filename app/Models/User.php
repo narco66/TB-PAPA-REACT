@@ -26,7 +26,11 @@ class User extends Authenticatable
         'matricule',
         'fonction',
         'telephone',
+        'bio',
+        'profile_photo_path',
         'direction_id',
+        'service_id',
+        'organizational_unit_id',
         'actif',
         'derniere_connexion_at',
     ];
@@ -62,6 +66,16 @@ class User extends Authenticatable
     public function direction(): BelongsTo
     {
         return $this->belongsTo(Direction::class);
+    }
+
+    public function service(): BelongsTo
+    {
+        return $this->belongsTo(Service::class);
+    }
+
+    public function organizationalUnit(): BelongsTo
+    {
+        return $this->belongsTo(OrganizationalUnit::class);
     }
 
     public function departementsDiriges(): HasMany

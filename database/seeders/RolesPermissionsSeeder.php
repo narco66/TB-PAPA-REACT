@@ -74,7 +74,7 @@ class RolesPermissionsSeeder extends Seeder
             // Administration
             'user.viewAny', 'user.view', 'user.create', 'user.update', 'user.delete',
             'role.manage', 'permission.manage',
-            'departement.manage', 'direction.manage', 'partenaire.manage',
+            'departement.manage', 'direction.manage', 'service.viewAny', 'service.manage', 'partenaire.manage',
             'audit.viewLog',
             // Module Audit interne IGS (IIA / IFACI)
             'audit_interne.view', 'audit_interne.plan_create', 'audit_interne.plan_validate',
@@ -273,7 +273,7 @@ class RolesPermissionsSeeder extends Seeder
         // === Admin fonctionnel ===
         Role::findByName('admin_fonctionnel')->syncPermissions([
             'user.viewAny', 'user.view', 'user.create', 'user.update',
-            'role.manage', 'departement.manage', 'direction.manage', 'partenaire.manage',
+            'role.manage', 'permission.manage', 'departement.manage', 'direction.manage', 'service.viewAny', 'service.manage', 'partenaire.manage',
             'papa.viewAny', 'papa.view',
             ...$rbmRead,
             'audit.viewLog',

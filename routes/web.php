@@ -3,6 +3,11 @@
 use App\Http\Controllers\Activite\ActiviteController;
 use App\Http\Controllers\Admin\AuditController;
 use App\Http\Controllers\Admin\DepartementController;
+use App\Http\Controllers\Admin\DirectionController;
+use App\Http\Controllers\Admin\OrganigrammeController;
+use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AlerteController;
 use App\Http\Controllers\Audit\AuditInterneController;
@@ -186,6 +191,8 @@ Route::middleware(['auth', 'enforce.2fa'])->group(function () {
 
         Route::get('suppliers', [SupplierController::class, 'index'])->name('suppliers.index');
         Route::post('suppliers', [SupplierController::class, 'store'])->name('suppliers.store');
+        Route::put('suppliers/{supplier}', [SupplierController::class, 'update'])->name('suppliers.update');
+        Route::delete('suppliers/{supplier}', [SupplierController::class, 'destroy'])->name('suppliers.destroy');
 
         // Phase 5 — Exports Excel/CSV des journaux
         Route::get('exports/{journal}.{format}', [ExpenseExportController::class, 'download'])
@@ -219,6 +226,29 @@ Route::middleware(['auth', 'enforce.2fa'])->group(function () {
         Route::resource('users', UserController::class)->parameters(['users' => 'user']);
         Route::resource('departements', DepartementController::class)
             ->parameters(['departements' => 'departement']);
+
+        // Hiérarchie organisationnelle (Phase 1)
+        Route::get('directions', [DirectionController::class, 'index'])->name('directions.index');
+        Route::post('directions', [DirectionController::class, 'store'])->name('directions.store');
+        Route::put('directions/{direction}', [DirectionController::class, 'update'])->name('directions.update');
+        Route::delete('directions/{direction}', [DirectionController::class, 'destroy'])->name('directions.destroy');
+
+        Route::get('services', [ServiceController::class, 'index'])->name('services.index');
+        Route::post('services', [ServiceController::class, 'store'])->name('services.store');
+        Route::put('services/{service}', [ServiceController::class, 'update'])->name('services.update');
+        Route::delete('services/{service}', [ServiceController::class, 'destroy'])->name('services.destroy');
+
+        Route::get('organigramme', OrganigrammeController::class)->name('organigramme');
+
+        // Rôles et permissions (RBAC)
+        Route::get('roles', [RoleController::class, 'index'])->name('roles.index');
+        Route::post('roles', [RoleController::class, 'store'])->name('roles.store');
+        Route::get('roles/{role}/edit', [RoleController::class, 'edit'])->name('roles.edit');
+        Route::put('roles/{role}', [RoleController::class, 'update'])->name('roles.update');
+        Route::delete('roles/{role}', [RoleController::class, 'destroy'])->name('roles.destroy');
+
+        Route::get('permissions', [PermissionController::class, 'index'])->name('permissions.index');
+
         Route::get('audit', [AuditController::class, 'index'])->name('audit');
     });
 });

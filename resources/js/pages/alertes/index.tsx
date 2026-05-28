@@ -2,6 +2,8 @@ import { router, useForm } from '@inertiajs/react';
 import { AlertCircle, AlertTriangle, CheckCircle2, Info, RefreshCw, ShieldCheck, Zap } from 'lucide-react';
 import { type FormEvent, useState } from 'react';
 import { AppLayout } from '@/components/layout/app-layout';
+import { JsonExportButton } from '@/components/common/json-export-button';
+import { Pagination } from '@/components/common/pagination';
 import { PdfExportButton } from '@/components/common/pdf-export-button';
 import { InstitutionalHero } from '@/components/layout/institutional-hero';
 import { Badge } from '@/components/ui/badge';
@@ -43,14 +45,15 @@ export default function AlertesIndex({ alertes, filters, stats, can }: any) {
             pageTitle="Alertes & Risques"
             breadcrumbs={[{ label: 'Alertes' }]}
             actions={
-                <>
+                <div className="flex gap-2">
+                    <JsonExportButton data={alertes.data ?? []} filename="alertes" meta={{ total: alertes.total ?? (alertes.data?.length ?? 0), filtres: filters, stats }} />
                     <PdfExportButton reportKey="liste_alertes" filtres={filters} />
                     {can.detect && (
                         <Button onClick={() => router.post('/alertes/detecter')}>
                             <Zap className="h-4 w-4" />Détecter les alertes
                         </Button>
                     )}
-                </>
+                </div>
             }
         >
             <div className="space-y-6">
@@ -149,6 +152,7 @@ export default function AlertesIndex({ alertes, filters, stats, can }: any) {
                         );
                     })}
                 </CardContent>
+                <Pagination pagination={alertes} label="alertes" />
             </Card>
             </div>
         </AppLayout>

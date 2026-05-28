@@ -2,6 +2,8 @@ import { Link, router } from '@inertiajs/react';
 import { AlertTriangle, BarChart3, Calendar, GanttChartSquare, Plus, Search, TrendingUp } from 'lucide-react';
 import { type FormEvent, useState } from 'react';
 import { AppLayout } from '@/components/layout/app-layout';
+import { JsonExportButton } from '@/components/common/json-export-button';
+import { Pagination } from '@/components/common/pagination';
 import { PdfExportButton } from '@/components/common/pdf-export-button';
 import { InstitutionalHero } from '@/components/layout/institutional-hero';
 import { StatusBadge } from '@/components/layout/status-badge';
@@ -48,6 +50,7 @@ export default function ActivitesIndex({ activites, papas, filters, can }: Props
             breadcrumbs={[{ label: 'Activités' }]}
             actions={
                 <div className="flex gap-2">
+                    <JsonExportButton data={activitesData} filename="activites" meta={{ total: activites.total ?? activitesData.length, filtres: filters }} />
                     <PdfExportButton reportKey="liste_activites" filtres={filters} />
                     <Button asChild variant="outline">
                         <Link href="/activites/gantt"><GanttChartSquare className="h-4 w-4" />Vue Gantt</Link>
@@ -174,6 +177,7 @@ export default function ActivitesIndex({ activites, papas, filters, can }: Props
                             ))}
                         </TableBody>
                     </Table>
+                    <Pagination pagination={activites} label="activités" />
                 </CardContent>
             </Card>
             </div>

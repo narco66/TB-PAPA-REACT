@@ -2,6 +2,8 @@ import { Link, router } from '@inertiajs/react';
 import { BarChart3, CheckCircle2, ListChecks, Plus, Search, TrendingUp, Users } from 'lucide-react';
 import { type FormEvent, useState } from 'react';
 import { AppLayout } from '@/components/layout/app-layout';
+import { JsonExportButton } from '@/components/common/json-export-button';
+import { Pagination } from '@/components/common/pagination';
 import { PdfExportButton } from '@/components/common/pdf-export-button';
 import { InstitutionalHero } from '@/components/layout/institutional-hero';
 import { RbmStatusBadge } from '@/components/rbm/rbm-status-badge';
@@ -30,10 +32,11 @@ export default function TachesIndex({ taches, filters, can }: any) {
             pageTitle="Tâches"
             breadcrumbs={[{ label: 'RBM' }, { label: 'Tâches' }]}
             actions={
-                <>
+                <div className="flex gap-2">
+                    <JsonExportButton data={tachesData} filename="taches" meta={{ total: taches.total ?? tachesData.length, filtres: filters }} />
                     <PdfExportButton reportKey="liste_taches" filtres={filters} />
                     {can.create && (<Button asChild><Link href="/rbm/taches/create"><Plus className="h-4 w-4" />Nouvelle Tâche</Link></Button>)}
-                </>
+                </div>
             }
         >
             <div className="space-y-6">
@@ -97,6 +100,7 @@ export default function TachesIndex({ taches, filters, can }: any) {
                                 ))}
                             </TableBody>
                         </Table>
+                        <Pagination pagination={taches} label="tâches" />
                     </CardContent>
                 </Card>
             </div>

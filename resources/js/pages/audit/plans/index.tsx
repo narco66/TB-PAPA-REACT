@@ -1,6 +1,8 @@
 import { Link } from '@inertiajs/react';
 import { ClipboardCheck, Plus } from 'lucide-react';
 import { AppLayout } from '@/components/layout/app-layout';
+import { JsonExportButton } from '@/components/common/json-export-button';
+import { Pagination } from '@/components/common/pagination';
 import { PdfExportButton } from '@/components/common/pdf-export-button';
 import { InstitutionalHero } from '@/components/layout/institutional-hero';
 import { Button } from '@/components/ui/button';
@@ -15,12 +17,13 @@ export default function PlansIndex({ plans, can }: any) {
             pageTitle="Plans d'audit"
             breadcrumbs={[{ label: 'Audit interne', href: '/audit' }, { label: "Plans d'audit" }]}
             actions={
-                <>
+                <div className="flex gap-2">
+                    <JsonExportButton data={items} filename="plans_audit" meta={{ total: plans.total ?? items.length }} />
                     <PdfExportButton reportKey="liste_audit_plans" />
                     {can.create && (
                         <Button asChild><Link href="/audit/plans/create"><Plus className="h-4 w-4" />Nouveau plan</Link></Button>
                     )}
-                </>
+                </div>
             }
         >
             <div className="space-y-6">
@@ -67,6 +70,7 @@ export default function PlansIndex({ plans, can }: any) {
                                 ))}
                             </TableBody>
                         </Table>
+                        <Pagination pagination={plans} label="plans d'audit" />
                     </CardContent>
                 </Card>
             </div>

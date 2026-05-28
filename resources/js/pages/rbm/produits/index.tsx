@@ -2,6 +2,8 @@ import { Link, router } from '@inertiajs/react';
 import { BarChart3, Layers3, Package, Plus, Search, Target, TrendingUp } from 'lucide-react';
 import { type FormEvent, useState } from 'react';
 import { AppLayout } from '@/components/layout/app-layout';
+import { JsonExportButton } from '@/components/common/json-export-button';
+import { Pagination } from '@/components/common/pagination';
 import { PdfExportButton } from '@/components/common/pdf-export-button';
 import { InstitutionalHero } from '@/components/layout/institutional-hero';
 import { RbmStatusBadge } from '@/components/rbm/rbm-status-badge';
@@ -36,12 +38,13 @@ export default function ProduitsIndex({ produits, axes, filters, statuts, can }:
             pageTitle="Produits"
             breadcrumbs={[{ label: 'RBM' }, { label: 'Produits' }]}
             actions={
-                <>
+                <div className="flex gap-2">
+                    <JsonExportButton data={produitsData} filename="produits" meta={{ total: produits.total ?? produitsData.length, filtres: filters }} />
                     <PdfExportButton reportKey="liste_produits" filtres={filters} />
                     {can.create && (
                         <Button asChild><Link href="/rbm/produits/create"><Plus className="h-4 w-4" />Nouveau Produit</Link></Button>
                     )}
-                </>
+                </div>
             }
         >
             <div className="space-y-6">
@@ -121,6 +124,7 @@ export default function ProduitsIndex({ produits, axes, filters, statuts, can }:
                                 ))}
                             </TableBody>
                         </Table>
+                        <Pagination pagination={produits} label="produits" />
                     </CardContent>
                 </Card>
             </div>

@@ -2,6 +2,8 @@ import { Link, router } from '@inertiajs/react';
 import { Plus, Receipt } from 'lucide-react';
 import { AppLayout } from '@/components/layout/app-layout';
 import { ExcelExportButton } from '@/components/common/excel-export-button';
+import { JsonExportButton } from '@/components/common/json-export-button';
+import { Pagination } from '@/components/common/pagination';
 import { PdfExportButton } from '@/components/common/pdf-export-button';
 import { InstitutionalHero } from '@/components/layout/institutional-hero';
 import { Button } from '@/components/ui/button';
@@ -22,7 +24,8 @@ export default function ExpenseRequestsIndex({ requests, statuts, types, filters
             pageTitle="Expressions du besoin"
             breadcrumbs={[{ label: 'Chaîne de la dépense', href: '/expense/requests' }, { label: 'Expressions du besoin' }]}
             actions={
-                <>
+                <div className="flex gap-2">
+                    <JsonExportButton data={items} filename="expressions_besoin" meta={{ total: requests.total ?? items.length, filtres: filters }} />
                     <ExcelExportButton journal="expressions" filtres={filters} />
                     <PdfExportButton reportKey="liste_expense_requests" filtres={filters} />
                     {can.create && (
@@ -33,7 +36,7 @@ export default function ExpenseRequestsIndex({ requests, statuts, types, filters
                             </Link>
                         </Button>
                     )}
-                </>
+                </div>
             }
         >
             <div className="space-y-6">
@@ -102,6 +105,7 @@ export default function ExpenseRequestsIndex({ requests, statuts, types, filters
                                 ))}
                             </TableBody>
                         </Table>
+                        <Pagination pagination={requests} label="expressions du besoin" />
                     </CardContent>
                 </Card>
             </div>

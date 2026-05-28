@@ -2,6 +2,8 @@ import { Link, router } from '@inertiajs/react';
 import { BarChart3, Plus, Search, TrendingDown, TrendingUp } from 'lucide-react';
 import { type FormEvent, useState } from 'react';
 import { AppLayout } from '@/components/layout/app-layout';
+import { JsonExportButton } from '@/components/common/json-export-button';
+import { Pagination } from '@/components/common/pagination';
 import { PdfExportButton } from '@/components/common/pdf-export-button';
 import { InstitutionalHero } from '@/components/layout/institutional-hero';
 import { Button } from '@/components/ui/button';
@@ -48,14 +50,15 @@ export default function IndicateursIndex({ indicateurs, filters, can }: Props) {
             pageTitle="Indicateurs de résultats (KPI)"
             breadcrumbs={[{ label: 'Indicateurs' }]}
             actions={
-                <>
+                <div className="flex gap-2">
+                    <JsonExportButton data={indicateursData} filename="indicateurs" meta={{ total: indicateurs.total ?? indicateursData.length, filtres: filters }} />
                     <PdfExportButton reportKey="liste_indicateurs" filtres={filters} />
                     {can.create && (
                         <Button asChild>
                             <Link href="/indicateurs/create"><Plus className="h-4 w-4" />Nouvel indicateur</Link>
                         </Button>
                     )}
-                </>
+                </div>
             }
         >
             <div className="space-y-6">
@@ -173,25 +176,9 @@ export default function IndicateursIndex({ indicateurs, filters, can }: Props) {
                             )}
                         </TableBody>
                     </Table>
+                    <Pagination pagination={indicateurs} label="indicateurs" />
                 </CardContent>
             </Card>
-
-            {indicateurs.last_page > 1 && (
-                <div className="mt-4 flex items-center justify-between text-sm text-muted-foreground">
-                    <p>{indicateurs.from}–{indicateurs.to} sur {indicateurs.total}</p>
-                    <div className="flex gap-1">
-                        {indicateurs.links.map((link: any, idx: number) => (
-                            <button
-                                key={idx}
-                                disabled={!link.url}
-                                onClick={() => link.url && router.get(link.url, {}, { preserveScroll: true })}
-                                className={`rounded px-3 py-1.5 text-sm ${link.active ? 'bg-primary text-primary-foreground' : link.url ? 'border hover:bg-accent' : 'opacity-40'}`}
-                                dangerouslySetInnerHTML={{ __html: link.label }}
-                            />
-                        ))}
-                    </div>
-                </div>
-            )}
             </div>
         </AppLayout>
     );

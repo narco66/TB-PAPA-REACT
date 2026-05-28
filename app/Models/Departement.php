@@ -14,9 +14,20 @@ class Departement extends Model
 {
     use HasFactory, LogsActivity, SoftDeletes;
 
-    protected $fillable = ['code', 'libelle', 'description', 'commissaire_id', 'ordre', 'actif'];
+    public const TYPES = ['presidence', 'vice_presidence', 'secretariat_general', 'departement_technique', 'organe_consultatif'];
 
-    protected $casts = ['actif' => 'boolean'];
+    protected $fillable = ['uuid', 'code', 'libelle', 'description', 'type', 'commissaire_id', 'ordre', 'actif'];
+
+    protected $casts = ['actif' => 'boolean', 'ordre' => 'integer'];
+
+    protected static function booted(): void
+    {
+        static::creating(function (Departement $d) {
+            if (empty($d->uuid)) {
+                $d->uuid = (string) \Illuminate\Support\Str::uuid();
+            }
+        });
+    }
 
     public function getActivitylogOptions(): LogOptions
     {
@@ -36,5 +47,10 @@ class Departement extends Model
     public function axes(): HasMany
     {
         return $this->hasMany(Axe::class);
+    }
+
+    public function services(): HasMany
+    {
+        return $this->hasMany(Service::class);
     }
 }
