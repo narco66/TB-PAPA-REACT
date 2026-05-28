@@ -1,0 +1,65 @@
+version: 2
+updates:
+  - package-ecosystem: composer
+    directory: '/'
+    schedule:
+      interval: weekly
+      day: monday
+      time: '06:00'
+      timezone: Africa/Libreville
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - composer
+    commit-message:
+      prefix: 'composer'
+      include: scope
+    groups:
+      laravel-ecosystem:
+        patterns:
+          - 'laravel/*'
+          - 'inertiajs/*'
+          - 'spatie/*'
+      dev-deps:
+        dependency-type: development
+
+  - package-ecosystem: npm
+    directory: '/'
+    schedule:
+      interval: weekly
+      day: monday
+      time: '06:00'
+      timezone: Africa/Libreville
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - javascript
+    commit-message:
+      prefix: 'npm'
+      include: scope
+    groups:
+      react-ecosystem:
+        patterns:
+          - 'react'
+          - 'react-dom'
+          - '@types/react*'
+      radix-ui:
+        patterns:
+          - '@radix-ui/*'
+      lint-tools:
+        patterns:
+          - 'eslint*'
+          - 'prettier'
+          - '@typescript-eslint/*'
+          - 'typescript-eslint'
+
+  - package-ecosystem: github-actions
+    directory: '/'
+    schedule:
+      interval: monthly
+      day: monday
+    labels:
+      - dependencies
+      - github-actions
+    commit-message:
+      prefix: 'ci'

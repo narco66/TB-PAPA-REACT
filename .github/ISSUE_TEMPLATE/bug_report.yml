@@ -1,0 +1,85 @@
+name: Bug Report
+description: Signaler un bug fonctionnel ou technique
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Merci de prendre le temps de signaler un bug. Plus le signalement est précis, plus la résolution est rapide.
+
+  - type: textarea
+    id: contexte
+    attributes:
+      label: Contexte
+      description: Où et quand le bug est-il survenu ?
+      placeholder: Ex. Sur /papa/3/show après avoir cliqué sur "Approuver"
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Étapes de reproduction
+      description: Comment reproduire le bug pas à pas
+      placeholder: |
+        1. Se connecter en tant que `president`
+        2. Ouvrir /papa/3
+        3. Cliquer sur "Approuver"
+        4. ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: attendu
+    attributes:
+      label: Comportement attendu
+      description: Ce qui aurait dû se passer
+    validations:
+      required: true
+
+  - type: textarea
+    id: observe
+    attributes:
+      label: Comportement observé
+      description: Ce qui se passe réellement (joindre message d'erreur si applicable)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severite
+    attributes:
+      label: Sévérité
+      options:
+        - 🔴 Bloquant (impossible d'utiliser la fonction)
+        - 🟠 Élevée (fonction dégradée)
+        - 🟡 Moyenne (contournement possible)
+        - 🟢 Faible (cosmétique)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: domaine
+    attributes:
+      label: Domaine fonctionnel
+      options:
+        - Auth / 2FA
+        - PAPA
+        - RBM (Axe / Produit / Sous-Produit / Activité / Tâche)
+        - Indicateurs (CMR)
+        - Budget
+        - Workflow / Validation
+        - Reporting / PDF
+        - GED / Documents
+        - Audit / Journaux
+        - Administration
+        - Dashboard
+        - Autre
+
+  - type: textarea
+    id: environnement
+    attributes:
+      label: Environnement
+      placeholder: |
+        - Navigateur : Firefox 120
+        - OS : Windows 11
+        - Rôle utilisateur : commissaire

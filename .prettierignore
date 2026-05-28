@@ -1,0 +1,7 @@
+node_modules
+public/build
+vendor
+storage
+bootstrap/cache
+*.min.js
+*.min.css

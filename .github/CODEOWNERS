@@ -1,0 +1,42 @@
+# Code owners — TB-PAPA-CEEAC
+# À adapter avec les comptes GitHub réels de l'équipe Direction des Systèmes d'Information.
+
+# Owners par défaut : équipe DSI
+* @ceeac-eccas/dsi
+
+# Backend Laravel
+/app/                @ceeac-eccas/dsi-backend
+/database/           @ceeac-eccas/dsi-backend
+/routes/             @ceeac-eccas/dsi-backend
+/config/             @ceeac-eccas/dsi-backend
+/tests/              @ceeac-eccas/dsi-backend
+
+# Frontend React + Inertia
+/resources/js/       @ceeac-eccas/dsi-frontend
+/resources/css/      @ceeac-eccas/dsi-frontend
+/vite.config.ts      @ceeac-eccas/dsi-frontend
+/tsconfig.json       @ceeac-eccas/dsi-frontend
+/eslint.config.js    @ceeac-eccas/dsi-frontend
+/.prettierrc.json    @ceeac-eccas/dsi-frontend
+
+# Reporting / PDF — métier reporting
+/app/Reports/        @ceeac-eccas/dsi-reporting
+/resources/views/    @ceeac-eccas/dsi-reporting
+
+# Sécurité / Auth / RBAC — revue obligatoire RSSI
+/app/Http/Middleware/SecurityHeaders.php  @ceeac-eccas/rssi
+/app/Http/Middleware/EnforceTwoFactor.php @ceeac-eccas/rssi
+/app/Auth/                                @ceeac-eccas/rssi
+/app/Services/Auth/                       @ceeac-eccas/rssi
+/app/Rules/StrongPassword.php             @ceeac-eccas/rssi
+/database/seeders/RolesPermissionsSeeder.php @ceeac-eccas/rssi
+/config/permission.php                    @ceeac-eccas/rssi
+
+# CI/CD & infrastructure
+/.github/            @ceeac-eccas/dsi-devops
+/docs/CI-CD.md       @ceeac-eccas/dsi-devops
+/docs/QUALITE-SECU.md @ceeac-eccas/dsi-devops
+
+# Documentation institutionnelle
+/docs/AUDIT-COMPLET.md @ceeac-eccas/dsi
+/docs/                 @ceeac-eccas/dsi

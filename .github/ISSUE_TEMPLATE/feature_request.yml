@@ -1,0 +1,68 @@
+name: Feature Request
+description: Proposer une évolution fonctionnelle
+labels: [enhancement]
+body:
+  - type: textarea
+    id: besoin
+    attributes:
+      label: Besoin métier
+      description: Quel problème institutionnel cette fonctionnalité résout-elle ?
+      placeholder: Ex. La présidence doit pouvoir visualiser l'avancement des Axes au niveau Conférence des Chefs d'État
+    validations:
+      required: true
+
+  - type: dropdown
+    id: domaine
+    attributes:
+      label: Domaine fonctionnel
+      options:
+        - Pilotage stratégique
+        - Planification RBM
+        - Exécution & Suivi
+        - Budget & Finances
+        - Workflow / Validation
+        - Reporting / PDF
+        - GED / Documents
+        - Audit / Sécurité
+        - Administration
+        - Performance technique
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Solution envisagée
+      description: Comment cette fonctionnalité devrait-elle fonctionner ?
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considérées
+      description: Avez-vous envisagé d'autres approches ?
+
+  - type: dropdown
+    id: priorite
+    attributes:
+      label: Priorité
+      options:
+        - 🔴 P0 — Bloquant production
+        - 🟠 P1 — Avant pilote large
+        - 🟡 P2 — V1 stable
+        - 🟢 P3 — V2+
+    validations:
+      required: true
+
+  - type: textarea
+    id: referentiel
+    attributes:
+      label: Référentiel mobilisé
+      description: Si applicable (RBM/GAR, IPSAS, COSO ERM, ISO 27001, RGPD, ODD, Agenda 2063…)
+
+  - type: textarea
+    id: contexte
+    attributes:
+      label: Contexte additionnel
+      description: Documents, références, captures d'écran, etc.
